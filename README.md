@@ -3,19 +3,19 @@
 ## Author
 Sebastian Palencsar
 
-Version: 0.3 Beta
+Version: 0.9 Beta
 
 ## Overview
 
-This Python script is designed to perform various system maintenance tasks on macOS version 10.0 or higher. It includes functionalities such as cleaning system cache, emptying trash, checking disk permissions, renewing the Spotlight index, clearing DNS cache, changing DNS servers, running an Internet speed test, deleting private data, analyzing disk space, checking for outdated software, and displaying system information.
+This Python script is designed to perform various system maintenance tasks on macOS version 12.7 or higher. It includes functionalities such as creating backups, analyzing disk space, performing network diagnostics, and checking the macOS version.
 
 ## Disclaimer
 
-Before using this script, please read the disclaimer and liability notice in the script itself. By using the script, you acknowledge that you are using it at your own risk, and the author cannot be held liable for any consequences or damages arising from its use.
+This script is provided "as-is" without any warranties or guarantees. The author is not responsible for any damage, data loss, or other issues that may arise from the use or misuse of this script. By using this script, you acknowledge that you are using it at your own risk. It is recommended to back up important data before running any maintenance tasks.
 
 ## Prerequisites
 
-- macOS version 10.0 or higher
+- macOS version 12.7 or higher
 - Python installed on your system (if not installed, follow the installation instructions below)
 
 ## Installation of Python on macOS
