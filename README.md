@@ -59,6 +59,21 @@ To run this script, Python must be installed on your macOS system. Follow these 
 
 4. Follow the on-screen instructions to choose the desired maintenance tasks from the main menu.
 
+## Example Usage
+
+Here is an example of how to use the script:
+
+```bash
+# Run the script
+python3 system_maintenance_script.py
+
+# Select an option from the menu
+1. Create Backup
+2. Analyze Disk Space
+3. Network Diagnostics
+4. Exit
+```
+
 ## Contributing
 
 If you encounter issues, have suggestions, or want to contribute to the script's development, please feel free to open an issue or submit a pull request on the 
