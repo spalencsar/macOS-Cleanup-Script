@@ -3,12 +3,15 @@
 ## [Unreleased]
 - Future changes will be documented here.
 
-## [0.9] - 2024-01-01
+## [1.0] - 2024-01-01
 ### Added
 - Implemented backup functionality.
 - Added disk space analysis feature.
 - Included network diagnostics function.
 - Added macOS version check before executing the script.
+- Added email notification functionality.
+- Added security check functionality.
+- Added Internet speedtest functionality.
 
 ### Changed
 - Updated README.md with new features and installation instructions.
