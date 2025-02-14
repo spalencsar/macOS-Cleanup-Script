@@ -4,10 +4,47 @@ import shutil
 import datetime
 import smtplib
 from email.mime.text import MIMEText
+from dotenv import load_dotenv
+import logging
+import configparser
+import sys
+
+# Check if Python is installed
+def check_python_installation():
+    try:
+        subprocess.run(["python3", "--version"], check=True)
+    except subprocess.CalledProcessError:
+        print("Python is not installed. Please install Python 3 to run this script.")
+        sys.exit(1)
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Load configuration from config.ini file
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Configure logging
+logging.basicConfig(filename='maintenance_log.txt', level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 # Function to print colored text
 def print_colored_text(color, text):
     print(f"\033[1m\033[{color}m{text}\033[0m")
+
+# Function to install speedtest-cli if not already installed
+def install_speedtest_cli():
+    try:
+        import speedtest
+    except ImportError:
+        print_colored_text("36", "Installing speedtest-cli...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "speedtest-cli"])
+        print_colored_text("32", "speedtest-cli installed successfully.")
+
+# Function to send error notifications
+def send_error_notification(error_message):
+    subject = "Error in macOS Cleanup Script"
+    body = f"An error occurred during the execution of the macOS Cleanup Script:\n\n{error_message}"
+    send_email_notification(subject, body)
 
 # Disclaimer and Liability Notice
 def print_disclaimer():
@@ -22,11 +59,16 @@ def print_disclaimer():
     print("By using this script, you acknowledge that you are using it at your own risk.")
     print("The author cannot be held liable for any consequences or damages arising from the use of this script.")
     print("")
+    print("This script is intended for educational and informational purposes only.")
+    print("It is recommended to review and understand the code before executing it.")
+    print("")
+    print("By using this script, you agree to the terms and conditions stated above.")
+    print("")
     print_colored_text("35", "If you agree to these terms and conditions, enter 'yes' to continue executing the script.")
     print("Entering any other value will terminate the script.")
     print("")
-    print_colored_text("35", "Beta Build Version: 0.9")
-    print_colored_text("35", "Author: Noordjonge")
+    print_colored_text("35", "Build Version: 1.0")
+    print_colored_text("35", "Author: Sebastian Palencsár")
     print("")
     print_colored_text("35", "=================================================")
     print("")
@@ -38,20 +80,22 @@ def get_user_confirmation():
 # Function to create a backup of important files
 def create_backup():
     print_colored_text("36", "Creating backup of important files...")
-    backup_dir = f"backup_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    backup_dir = config['BACKUP']['BACKUP_DIR']
     os.makedirs(backup_dir, exist_ok=True)
     
     try:
-        shutil.copytree(os.path.expanduser("~"), os.path.join(backup_dir, "home_backup"))
+        shutil.copytree(os.path.expanduser("~"), os.path.join(backup_dir, f"home_backup_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"))
         print_colored_text("32", "Backup created successfully.")
     except Exception as e:
-        print_colored_text("31", f"Error creating backup: {e}")
+        error_message = f"Error creating backup: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to log actions
 def log_action(action):
-    with open("maintenance_log.txt", "a") as log_file:
-        log_file.write(f"{datetime.datetime.now()}: {action}\n")
+    logging.info(action)
 
 # Function to check system status
 def check_system_status():
@@ -60,7 +104,10 @@ def check_system_status():
         subprocess.run(["df", "-h"], check=True)  # Disk space
         subprocess.run(["top", "-l", "0"], check=True)  # CPU usage
     except Exception as e:
-        print_colored_text("31", f"Error checking system status: {e}")
+        error_message = f"Error checking system status: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to perform network diagnostics
@@ -75,17 +122,23 @@ def network_diagnostics():
         
         print_colored_text("32", "Network diagnostics completed successfully.")
     except Exception as e:
-        print_colored_text("31", f"Error during network diagnostics: {e}")
+        error_message = f"Error during network diagnostics: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to check for outdated software
 def check_outdated_software():
     print_colored_text("36", "Checking for outdated software...")
     try:
-        subprocess.run(["softwareupdate", "-l"], check=True)
+        subprocess.run(["softwareupdate", "--list"], check=True)
         print_colored_text("32", "Outdated software check completed.")
     except Exception as e:
-        print_colored_text("31", f"Error checking for outdated software: {e}")
+        error_message = f"Error checking for outdated software: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to delete private data
@@ -96,7 +149,10 @@ def delete_private_data():
         shutil.rmtree(os.path.expanduser("~/Library/Safari/"), ignore_errors=True)
         print_colored_text("32", "Private data deleted successfully.")
     except Exception as e:
-        print_colored_text("31", f"Error deleting private data: {e}")
+        error_message = f"Error deleting private data: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to analyze disk space and list largest files
@@ -107,14 +163,19 @@ def analyze_disk_space():
         subprocess.run("du -ah ~ | sort -rh | head -n 10", shell=True)
         print_colored_text("32", "Disk space analysis completed.")
     except Exception as e:
-        print_colored_text("31", f"Error analyzing disk space: {e}")
+        error_message = f"Error analyzing disk space: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Function to send email notifications
 def send_email_notification(subject, body):
-    sender_email = "your_email@example.com"
-    receiver_email = "receiver_email@example.com"
-    password = "your_password"  # Use an app password if necessary
+    sender_email = config['EMAIL']['SENDER_EMAIL']
+    receiver_email = config['EMAIL']['RECEIVER_EMAIL']
+    smtp_server = config['EMAIL']['SMTP_SERVER']
+    smtp_port = config['EMAIL']['SMTP_PORT']
+    password = os.getenv("EMAIL_PASSWORD")
 
     msg = MIMEText(body)
     msg['Subject'] = subject
@@ -122,13 +183,15 @@ def send_email_notification(subject, body):
     msg['To'] = receiver_email
 
     try:
-        with smtplib.SMTP('smtp.example.com', 587) as server:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
             server.login(sender_email, password)
             server.send_message(msg)
         print_colored_text("32", "Email notification sent successfully.")
     except Exception as e:
-        print_colored_text("31", f"Error sending email: {e}")
+        error_message = f"Error sending email: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
 
 # Function to perform security check
 def security_check():
@@ -150,7 +213,133 @@ def security_check():
             print_colored_text("31", "Firewall is disabled.")
 
     except Exception as e:
-        print_colored_text("31", f"Error during security check: {e}")
+        error_message = f"Error during security check: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to clean system cache
+def clean_system_cache():
+    print_colored_text("36", "Cleaning system cache...")
+    try:
+        subprocess.run(["sudo", "purge"], check=True)
+        print_colored_text("32", "System cache cleaned successfully.")
+    except Exception as e:
+        error_message = f"Error cleaning system cache: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to empty trash
+def empty_trash():
+    print_colored_text("36", "Emptying trash...")
+    try:
+        subprocess.run(["rm", "-rf", os.path.expanduser("~/.Trash/*")], check=True)
+        print_colored_text("32", "Trash emptied successfully.")
+    except Exception as e:
+        error_message = f"Error emptying trash: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to check disk permissions
+def check_disk_permissions():
+    print_colored_text("36", "Checking disk permissions...")
+    try:
+        subprocess.run(["diskutil", "verifyPermissions", "/"], check=True)
+        print_colored_text("32", "Disk permissions checked successfully.")
+    except Exception as e:
+        error_message = f"Error checking disk permissions: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to renew Spotlight index
+def renew_spotlight_index():
+    print_colored_text("36", "Renewing Spotlight index...")
+    try:
+        subprocess.run(["sudo", "mdutil", "-E", "/"], check=True)
+        print_colored_text("32", "Spotlight index renewed successfully.")
+    except Exception as e:
+        error_message = f"Error renewing Spotlight index: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to clear DNS cache
+def clear_dns_cache():
+    print_colored_text("36", "Clearing DNS cache...")
+    try:
+        subprocess.run(["sudo", "killall", "-HUP", "mDNSResponder"], check=True)
+        print_colored_text("32", "DNS cache cleared successfully.")
+    except Exception as e:
+        error_message = f"Error clearing DNS cache: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to change DNS server
+def change_dns_server():
+    print_colored_text("36", "Changing DNS server...")
+    try:
+        subprocess.run(["networksetup", "-setdnsservers", "Wi-Fi", "8.8.8.8", "8.8.4.4"], check=True)
+        print_colored_text("32", "DNS server changed successfully.")
+    except Exception as e:
+        error_message = f"Error changing DNS server: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to run Internet speedtest
+def run_speedtest():
+    print_colored_text("36", "Running Internet speedtest...")
+    try:
+        import speedtest
+        st = speedtest.Speedtest()
+        st.download()
+        st.upload()
+        results = st.results.dict()
+        print_colored_text("32", f"Download speed: {results['download'] / 1_000_000:.2f} Mbps")
+        print_colored_text("32", f"Upload speed: {results['upload'] / 1_000_000:.2f} Mbps")
+        print_colored_text("32", f"Ping: {results['ping']} ms")
+    except Exception as e:
+        error_message = f"Error running Internet speedtest: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to display system information
+def display_system_information():
+    print_colored_text("36", "Displaying system information...")
+    try:
+        subprocess.run(["system_profiler", "SPHardwareDataType"], check=True)
+        print_colored_text("32", "System information displayed successfully.")
+    except Exception as e:
+        error_message = f"Error displaying system information: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
+    print("")
+
+# Function to check for software updates
+def check_for_updates():
+    print_colored_text("36", "Checking for software updates...")
+    try:
+        subprocess.run(["softwareupdate", "-l"], check=True)
+        print_colored_text("32", "Software updates check completed.")
+    except Exception as e:
+        error_message = f"Error checking for software updates: {e}"
+        print_colored_text("31", error_message)
+        logging.error(error_message)
+        send_error_notification(error_message)
     print("")
 
 # Main menu
@@ -203,6 +392,7 @@ def main_menu():
             change_dns_server()
             log_action("DNS server changed.")
         elif choice == "8":
+            install_speedtest_cli()
             run_speedtest()
             log_action("Internet speedtest run.")
         elif choice == "9":
@@ -240,9 +430,10 @@ def main_menu():
 
 # Main program
 if __name__ == "__main__":
+    check_python_installation()
     print_disclaimer()
     
     if get_user_confirmation():
         main_menu()
     else:
-        print_colored_text("31", "Script execution aborted. Exiting...")n
+        print_colored_text("31", "Script execution aborted. Exiting...")
