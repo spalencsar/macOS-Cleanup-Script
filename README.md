@@ -1,63 +1,84 @@
-# System Maintenance Script
+# macOS Cleanup Script
 
 ## Author
 Sebastian Palencsar
 
-Version: 0.9 Beta
+Version: 1.0
 
 ## Overview
 
-This Python script is designed to perform various system maintenance tasks on macOS version 12.7 or higher. It includes functionalities such as creating backups, analyzing disk space, performing network diagnostics, and checking the macOS version.
+This script performs various maintenance tasks on a macOS system, including creating backups, checking system status, performing network diagnostics, and more.
 
-## Disclaimer
+## Disclaimer and Liability Notice
 
-This script is provided "as-is" without any warranties or guarantees. The author is not responsible for any damage, data loss, or other issues that may arise from the use or misuse of this script. By using this script, you acknowledge that you are using it at your own risk. It is recommended to back up important data before running any maintenance tasks.
+This script is provided as-is, without any warranty or guarantee. The author of this script takes no responsibility for any damage or loss caused by the use or misuse of this script.
+
+By using this script, you acknowledge that you are using it at your own risk. The author cannot be held liable for any consequences or damages arising from the use of this script.
+
+This script is intended for educational and informational purposes only. It is recommended to review and understand the code before executing it.
+
+By using this script, you agree to the terms and conditions stated above.
 
 ## Prerequisites
 
 - macOS version 12.7 or higher
-- Python installed on your system (if not installed, follow the installation instructions below)
+- Python 3 must be installed.
 
-## Installation of Python on macOS
+## Installation
 
-To run this script, Python must be installed on your macOS system. Follow these steps to install Python:
+1. **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    ```
+2. **Navigate to the directory**:
+    ```bash
+    cd macOS-Cleanup-Script
+    ```
+3. **Install the dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-1. Open a terminal window.
+## Python Installation
 
-2. Check if Python is already installed by running the following command:
-   ```bash
-   python3 --version
-   ```
-   If Python is not installed, you will see a message indicating that it is not found.
+If Python 3 is not installed, you can install it as follows:
 
-3. Install Homebrew (if not already installed):
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
+1. **Download the Python installer** from the official [Python website](https://www.python.org/downloads/).
+2. **Run the installer** and follow the instructions to install Python 3.
 
-4. Install Python 3 using Homebrew:
-   ```bash
-   brew install python
-   ```
+## Configuration
 
-5. After installation, verify that Python is installed by running:
-   ```bash
-   python3 --version
-   ```
-   You should see the Python version number.
+1. **Create a `.env` file** and add your email credentials:
+    ```plaintext
+    EMAIL_PASSWORD=your_password
+    ```
+    This file is used to store sensitive information like your email password securely.
+
+2. **Edit the `config.ini` file** to store custom settings:
+    ```ini
+    [EMAIL]
+    SENDER_EMAIL = your_email@example.com
+    RECEIVER_EMAIL = receiver_email@example.com
+    SMTP_SERVER = smtp.example.com
+    SMTP_PORT = 587
+
+    [BACKUP]
+    BACKUP_DIR = /path/to/backup
+    ```
+    This file is used to configure email settings and the backup directory.
 
 ## Running the Script
 
-1. Clone or download this repository to your local machine.
+1. **Clone or download this repository** to your local machine.
 
-2. Open a terminal and navigate to the directory containing the script.
+2. **Open a terminal** and navigate to the directory containing the script.
 
-3. Run the script using the following command:
+3. **Run the script** using the following command:
    ```bash
    python3 system_maintenance_script.py
    ```
 
-4. Follow the on-screen instructions to choose the desired maintenance tasks from the main menu.
+4. **Follow the on-screen instructions** to choose the desired maintenance tasks from the main menu.
 
 ## Example Usage
 
@@ -74,6 +95,27 @@ python3 system_maintenance_script.py
 4. Exit
 ```
 
+## Features
+
+- Create backup of important files
+- Clean system cache
+- Empty trash
+- Check disk permissions
+- Renew Spotlight index
+- Clear DNS cache
+- Change DNS server
+- Run Internet speedtest
+- Delete private data
+- Analyze disk space
+- Check for outdated software
+- Display system information
+- Check system status
+- Perform network diagnostics
+- Check for software updates
+- Perform security check
+- Send email notifications
+- Error logging and notifications
+
 ## Contributing
 
 If you encounter issues, have suggestions, or want to contribute to the script's development, please feel free to open an issue or submit a pull request on the 
@@ -82,4 +124,4 @@ If you encounter issues, have suggestions, or want to contribute to the script's
 
 ## License
 
-This script is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
