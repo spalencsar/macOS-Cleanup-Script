@@ -3,7 +3,7 @@
 ## [Unreleased]
 - Future changes will be documented here.
 
-## [1.0] - 2024-01-01
+## [1.0] - 2025-02-14
 ### Added
 - Implemented backup functionality.
 - Added disk space analysis feature.
