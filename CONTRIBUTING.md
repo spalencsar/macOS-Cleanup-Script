@@ -1,6 +1,6 @@
-# Contributing to System Maintenance Script
+# Contributing to macOS Cleanup Script
 
-Thank you for considering contributing to the System Maintenance Script! Your contributions are welcome and appreciated. Please follow the guidelines below to ensure a smooth collaboration.
+Thank you for considering contributing to the macOS Cleanup Script! Your contributions are welcome and appreciated. Please follow the guidelines below to ensure a smooth collaboration.
 
 ## How to Contribute
 
@@ -8,9 +8,8 @@ Thank you for considering contributing to the System Maintenance Script! Your co
 
 2. **Clone Your Fork**: Clone your forked repository to your local machine using the following command:
    ```bash
-   git clone https://github.com/your-username/macOS-Cleanup-Script.git
+   git clone https://github.com/spalencsar/macOS-Cleanup-Script.git
    ```
-   Replace `your-username` with your GitHub username.
 
 3. **Create a New Branch**: Before making any changes, create a new branch for your feature or bug fix:
    ```bash
