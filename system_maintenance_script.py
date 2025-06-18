@@ -1,3 +1,22 @@
+#!/usr/bin/env python3
+"""
+⚠️  ARCHIVED PROJECT - DO NOT USE ⚠️
+
+macOS Cleanup Script (DEPRECATED)
+Author: Sebastian Palencsár
+Version: 1.0 (FINAL - ARCHIVED)
+Status: OBSOLETE - DO NOT RUN ON MODERN macOS
+
+🚨 CRITICAL WARNING: 
+This script is DANGEROUS on modern macOS systems!
+- Contains deprecated commands that can break your system
+- Uses unsafe practices that can cause data loss
+- Not compatible with modern macOS security features
+
+This script is kept for historical reference only.
+Use modern alternatives instead!
+"""
+
 import os
 import subprocess
 import shutil
@@ -48,9 +67,19 @@ def send_error_notification(error_message):
 
 # Disclaimer and Liability Notice
 def print_disclaimer():
-    print_colored_text("35", "=================================================")
-    print_colored_text("35", "                   DISCLAIMER                    ")
-    print_colored_text("35", "=================================================")
+    print_colored_text("31", "=================================================")
+    print_colored_text("31", "   ⚠️  ARCHIVED PROJECT - DO NOT USE ⚠️   ")
+    print_colored_text("31", "=================================================")
+    print("")
+    print_colored_text("31", "🚨 CRITICAL WARNING: This script is OBSOLETE!")
+    print("")
+    print("This script contains DANGEROUS and DEPRECATED commands that can:")
+    print("• BREAK your macOS system (uses removed diskutil commands)")
+    print("• DELETE critical user data without proper safeguards")
+    print("• COMPROMISE system security")
+    print("• INTERFERE with modern macOS features")
+    print("")
+    print_colored_text("31", "DO NOT RUN THIS SCRIPT ON MODERN macOS!")
     print("")
     print("This script is provided as-is, without any warranty or guarantee.")
     print("The author of this script takes no responsibility for any damage or loss")
@@ -59,23 +88,32 @@ def print_disclaimer():
     print("By using this script, you acknowledge that you are using it at your own risk.")
     print("The author cannot be held liable for any consequences or damages arising from the use of this script.")
     print("")
-    print("This script is intended for educational and informational purposes only.")
-    print("It is recommended to review and understand the code before executing it.")
+    print("This script is intended for educational and historical purposes only.")
+    print("It is recommended to use modern macOS tools instead.")
     print("")
     print("By using this script, you agree to the terms and conditions stated above.")
     print("")
-    print_colored_text("35", "If you agree to these terms and conditions, enter 'yes' to continue executing the script.")
+    print_colored_text("31", "⚠️  This script should NOT be used - type 'archive' to acknowledge")
     print("Entering any other value will terminate the script.")
     print("")
-    print_colored_text("35", "Build Version: 1.0")
+    print_colored_text("35", "Build Version: 1.0 (FINAL - ARCHIVED)")
     print_colored_text("35", "Author: Sebastian Palencsár")
     print("")
-    print_colored_text("35", "=================================================")
+    print_colored_text("31", "=================================================")
     print("")
 
 def get_user_confirmation():
-    confirmation = input("Do you agree to the terms and conditions? (yes/no): ").lower()
-    return confirmation == "yes"
+    confirmation = input("Type 'archive' to acknowledge this script is obsolete: ").lower()
+    if confirmation == "archive":
+        print_colored_text("31", "\n⚠️  You have acknowledged this script is obsolete.")
+        print_colored_text("31", "The script will now exit for your safety.")
+        print_colored_text("32", "\nRecommended alternatives:")
+        print("• Use built-in macOS Storage Management")
+        print("• Try CleanMyMac X or OnyX for cleanup")
+        print("• Use Time Machine for backups")
+        return False
+    else:
+        return False
 
 # Function to create a backup of important files
 def create_backup():

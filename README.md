@@ -1,13 +1,44 @@
-# macOS Cleanup Script
+# ⚠️ ARCHIVED PROJECT - DO NOT USE ⚠️
+
+# macOS Cleanup Script (DEPRECATED)
+
+> **🚨 CRITICAL WARNING: This script is OBSOLETE and potentially DANGEROUS on modern macOS systems!**
+> 
+> **📅 Last Update:** 2025 - Project archived  
+> **⛔ Status:** No longer maintained - DO NOT USE  
+> **🎯 Target:** macOS versions prior to macOS 12 (now unsupported)
+
+## ⚠️ Why This Script is Dangerous
+
+This script contains **outdated and potentially harmful commands** that can:
+- **Break your macOS system** (uses deprecated `diskutil verifyPermissions`)
+- **Delete critical user data** without proper safeguards
+- **Compromise system security** with aggressive modifications
+- **Interfere with modern macOS features** like SIP and automatic maintenance
+
+## 🏛️ Historical Context
+
+This script was created for older macOS versions (pre-2020) when manual system maintenance was more common. Modern macOS handles most of these tasks automatically and securely.
+
+## ✅ Modern Alternatives (2025)
+
+Instead of this script, use:
+- **Built-in macOS maintenance** (runs automatically)
+- **Storage Management** (Apple Menu > About This Mac > More Info > Storage Settings)
+- **CleanMyMac X** or **OnyX** for advanced cleanup
+- **Time Machine** for proper backups
+- **Terminal maintenance commands** individually and carefully
 
 ## Author
 Sebastian Palencsar
 
-Version: 1.0
+Version: 1.0 (FINAL - ARCHIVED)
 
-## Overview
+## Overview (Historical)
 
-This script performs various maintenance tasks on a macOS system, including creating backups, checking system status, performing network diagnostics, and more.
+~~This script performs various maintenance tasks on a macOS system, including creating backups, checking system status, performing network diagnostics, and more.~~
+
+**Note:** These functions are now handled by macOS automatically or available through safer, modern tools.
 
 ## Disclaimer and Liability Notice
 
